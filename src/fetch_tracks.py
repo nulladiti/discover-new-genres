@@ -17,14 +17,13 @@ OUTPUT_PATH = os.path.join(ROOT, "data", "artists.csv")
 # Helper functions
 # ---------------------------
 
-# Genre name → everynoise slug, e.g. "k-pop" → "kpop", "r&b" → "rb"
 def genre_to_slug(genre):
     """Convert a genre name to an EveryNoise URL-friendly slug."""
     return re.sub(r"[^a-z0-9]", "", genre.lower())
 
 
 def fetch_artists(slug, retries=5):
-    """Return list of artist name strings from the everynoise genre page.
+    """Return list of artist name strings from the EveryNoise genre page.
 
     Args:
         slug (str): Genre slug for the URL.
@@ -98,4 +97,3 @@ with open(OUTPUT_PATH, "a", newline="", encoding="utf-8") as out:
         time.sleep(0.5)
 
 print(f"\nDone. Saved to {OUTPUT_PATH}")
-
