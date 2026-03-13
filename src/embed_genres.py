@@ -35,3 +35,25 @@ with open(ARTISTS_PATH, newline="", encoding="utf-8") as f:
 
 print(f"Loaded text for {len(genre_texts)} genres.")
 
+# -----------------------------
+# Embed
+# -----------------------------
+
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+genres = list(genre_texts.keys())
+print(f"Embedding {len(genres)} genres...")
+
+# Store embeddings here
+genre_embeddings = []
+
+for i, genre in enumerate(genres):
+    # Convert texts into embedding vectors and average them
+    texts = genre_texts[genre]
+    vecs = model.encode(texts, batch_size=256, show_progress_bar=False, convert_to_numpy=True)
+    genre_embeddings.append(vecs.mean(axis=0))
+
+    if (i + 1) % 500 == 0:
+        print(f"  {i + 1}/{len(genres)} genres embedded...")
+
+embeddings_matrix = np.array(genre_embeddings)  # shape: (n_genres, 384)
